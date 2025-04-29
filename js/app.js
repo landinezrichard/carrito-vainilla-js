@@ -74,6 +74,9 @@ function htmlCarrito() {
     contenedorCarrito.appendChild(row);
   });
 
+  // Sincronizar el carrito con el localStorage
+  sincronizarStorage();
+
   // Actualizar la cantidad de la notificacion
   añadirNotificacion();
 }
@@ -105,6 +108,10 @@ function añadirNotificacion() {
   }
 }
 
+function sincronizarStorage() {
+  localStorage.setItem("carrito", JSON.stringify(articulosCarrito));
+}
+
 function agregarEventos() {
   // Agregar evento a los cursos
   listaCursos.addEventListener("click", agregarCurso);
@@ -115,6 +122,11 @@ function agregarEventos() {
     articulosCarrito = []; // reseteamos el carrito
     limpiarHtml(); // limpiamos el html
     añadirNotificacion(); // actualizamos la notificacion
+  });
+  // Cargar el carrito desde el localStorage
+  document.addEventListener("DOMContentLoaded", () => {
+    articulosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    htmlCarrito(); // renderizamos el carrito
   });
 }
 
